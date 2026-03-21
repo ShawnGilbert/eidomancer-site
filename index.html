@@ -372,13 +372,17 @@
           Tell me what you experienced, what felt useful, and what you want Eidomancer to become.
         </p>
 
-        <form class="feedback-form">
-          <input type="text" placeholder="Your name" />
-          <textarea placeholder="Your thoughts"></textarea>
-          <div>
-            <button class="button" type="button">Send Feedback</button>
-          </div>
-        </form>
+        <form class="feedback-form" action="https://formspree.io/f/meerwkwb" method="POST">
+
+  <input type="text" name="name" placeholder="Your name" required />
+
+  <textarea name="message" placeholder="Your thoughts" required></textarea>
+
+  <div>
+    <button class="button" type="submit">Send Feedback</button>
+  </div>
+
+</form>
 
         <div class="feedback-note">
           V1 note: this form is currently visual only. A real feedback system or comments section comes next.
