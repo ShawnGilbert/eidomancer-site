@@ -2,97 +2,393 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Eidomancer</title>
   <style>
+    :root {
+      --bg: #060d22;
+      --panel: rgba(15, 24, 52, 0.78);
+      --panel-border: rgba(90, 140, 255, 0.18);
+      --text: #f4f7ff;
+      --muted: rgba(244, 247, 255, 0.72);
+      --accent-a: #7b5cff;
+      --accent-b: #00c6ff;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #0b0f1a;
-      color: white;
+      background:
+        radial-gradient(circle at top left, rgba(123, 92, 255, 0.18), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(0, 198, 255, 0.12), transparent 24%),
+        linear-gradient(180deg, #040918 0%, #07112b 100%);
+      color: var(--text);
+    }
+
+    .container {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 88px 0 52px;
       text-align: center;
     }
 
-    .section {
-      padding: 80px 20px;
-      max-width: 800px;
-      margin: auto;
+    .eyebrow {
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-size: 12px;
+      color: #8dd2ff;
+      margin-bottom: 16px;
+      font-weight: 700;
     }
 
     h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
+      margin: 0 0 16px;
+      font-size: clamp(42px, 7vw, 86px);
+      line-height: 0.95;
     }
 
-    p {
-      opacity: 0.8;
+    .hero p {
+      max-width: 700px;
+      margin: 0 auto 28px;
+      color: var(--muted);
+      font-size: 18px;
       line-height: 1.6;
     }
 
-    .button {
-      display: inline-block;
-      padding: 15px 30px;
-      margin-top: 20px;
-      border-radius: 30px;
-      background: linear-gradient(90deg, #7b5cff, #00c6ff);
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
     }
 
-    input, textarea {
+    .button,
+    .button-secondary {
+      display: inline-block;
+      padding: 15px 28px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    }
+
+    .button {
+      background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+      color: white;
+      box-shadow: 0 12px 28px rgba(0, 140, 255, 0.24);
+    }
+
+    .button-secondary {
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .button:hover,
+    .button-secondary:hover {
+      transform: translateY(-2px);
+      opacity: 0.96;
+    }
+
+    .section {
+      padding: 28px 0 42px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+      backdrop-filter: blur(10px);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 14px;
+      font-size: 30px;
+    }
+
+    h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 19px;
+    }
+
+    p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0 0 16px;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .feature {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .feature strong {
+      display: block;
+      margin-bottom: 6px;
+      color: white;
+    }
+
+    .app-preview {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(15, 23, 50, 0.9), rgba(8, 15, 35, 0.9));
+      border: 1px solid rgba(108, 162, 255, 0.14);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+    }
+
+    .preview-image {
       width: 100%;
-      padding: 10px;
+      border-radius: 16px;
+      display: block;
+      background: #09122a;
+      border: 1px solid rgba(255,255,255,0.06);
+      min-height: 220px;
+      object-fit: cover;
+    }
+
+    .philosophy {
+      display: grid;
+      gap: 16px;
+    }
+
+    .quote {
+      padding: 18px 20px;
+      border-left: 3px solid #5ed7ff;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 14px;
+      color: white;
+      line-height: 1.7;
+    }
+
+    .feedback-form {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 14px 15px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.045);
+      color: white;
+      font: inherit;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .feedback-note {
+      font-size: 14px;
+      color: rgba(255,255,255,0.55);
       margin-top: 10px;
-      border-radius: 8px;
-      border: none;
+    }
+
+    .footer {
+      padding: 12px 0 56px;
+      text-align: center;
+      color: rgba(255,255,255,0.52);
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 68px;
+      }
+
+      .card {
+        padding: 22px;
+      }
     }
   </style>
 </head>
 <body>
+  <header class="hero">
+    <div class="container">
+      <div class="eyebrow">The Emergent Ones</div>
+      <h1>Eidomancer</h1>
+      <p>
+        Ask a real question. Receive a symbolic cast. Eidomancer is an AI-driven
+        reflection tool built to help people navigate uncertainty through archetype,
+        structure, and insight.
+      </p>
 
-  <!-- HERO -->
-<div class="section">
-  <h1>Eidomancer</h1>
-  <p>Ask a real question. Receive a symbolic cast.</p>
-</div>
+      <div class="button-row">
+        <a class="button" href="https://eidomancer-v1.onrender.com" target="_blank" rel="noopener noreferrer">
+          Launch Eidomancer
+        </a>
+        <a class="button-secondary" href="#about">
+          Learn More
+        </a>
+      </div>
+    </div>
+  </header>
 
-<!-- TRY EIDOMANCER -->
-<div class="section">
-  <h2>Try Eidomancer</h2>
-  <iframe 
-    src="https://eidomancer-v1.onrender.com" 
-    width="100%" 
-    height="700px"
-    style="border:none; border-radius:12px;">
-  </iframe>
-</div>
+  <main class="container">
+    <section class="section" id="about">
+      <div class="grid">
+        <div class="card">
+          <h2>What is Eidomancer?</h2>
+          <p>
+            Eidomancer combines symbolic language, structured prompts, and AI-generated
+            interpretation into a guided casting experience. It is designed to feel more
+            like a reflective ritual than a cold utility, while still grounding the user
+            in practical action.
+          </p>
+          <p>
+            This first version is intentionally simple: a focused tool, a live public app,
+            and a growing philosophy behind it.
+          </p>
 
-  <!-- WHAT IT IS -->
-  <div class="section">
-    <h2>What is Eidomancer?</h2>
-    <p>
-      Eidomancer is an AI-driven symbolic casting system designed to help you reflect,
-      interpret, and navigate uncertainty through structured insight.
-    </p>
-  </div>
+          <div class="feature-list">
+            <div class="feature">
+              <strong>Symbolic Casts</strong>
+              Ask a real question and receive a title, snapshot, field reading, tension, and action.
+            </div>
+            <div class="feature">
+              <strong>AI With Theme</strong>
+              The experience is framed through The Emergent Ones rather than generic chatbot language.
+            </div>
+            <div class="feature">
+              <strong>Built In Public</strong>
+              This project is live, evolving, and being shaped into a larger symbolic AI platform.
+            </div>
+          </div>
+        </div>
 
-  <!-- PHILOSOPHY -->
-  <div class="section">
-    <h2>The Emergent Ones</h2>
-    <p>
-      Intelligence must doubt itself. Truth is not just correct answers, but correct reasons.
-      Eidomancer translates reality into symbolic language you can understand.
-    </p>
-  </div>
+        <div class="card">
+          <h3>Live Experience</h3>
+          <p>
+            The app itself lives on its own dedicated page for now, which keeps the casting
+            experience cleaner and avoids iframe layout issues.
+          </p>
 
-  <!-- FEEDBACK -->
-  <div class="section">
-    <h2>Feedback</h2>
-    <p>Tell me what you experienced.</p>
-    <input placeholder="Your name" />
-    <textarea placeholder="Your thoughts"></textarea>
-  </div>
+          <div class="app-preview">
+            <img
+              class="preview-image"
+              src="https://placehold.co/900x520/09122a/eef3ff?text=Eidomancer+Live+App"
+              alt="Eidomancer app preview placeholder"
+            />
+          </div>
 
+          <div style="margin-top: 18px;">
+            <a class="button" href="https://eidomancer-v1.onrender.com" target="_blank" rel="noopener noreferrer">
+              Open the Live App
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid">
+        <div class="card">
+          <h2>The Emergent Ones</h2>
+          <div class="philosophy">
+            <p>
+              Eidomancer is rooted in the idea that intelligence should not merely produce
+              correct answers, but correct reasons. Symbolic language becomes a bridge
+              between human meaning and machine interpretation.
+            </p>
+            <div class="quote">
+              Physics first. Without the laws of reality, no myth, dream, or transcendence can take shape.
+            </div>
+            <p>
+              The project aims to translate reality into forms people can emotionally process:
+              not just information, but pattern, metaphor, and direction.
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>What Comes Next</h2>
+          <div class="feature-list">
+            <div class="feature">
+              <strong>Comments & Reactions</strong>
+              A future public site feature so visitors can respond and engage.
+            </div>
+            <div class="feature">
+              <strong>Image Generation</strong>
+              Casts that eventually produce matching visual cards, not just text outputs.
+            </div>
+            <div class="feature">
+              <strong>Deeper Product Experience</strong>
+              Better landing pages, saved casts, domain polish, and premium presentation.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="feedback">
+      <div class="card">
+        <h2>Feedback</h2>
+        <p>
+          Tell me what you experienced, what felt useful, and what you want Eidomancer to become.
+        </p>
+
+        <form class="feedback-form">
+          <input type="text" placeholder="Your name" />
+          <textarea placeholder="Your thoughts"></textarea>
+          <div>
+            <button class="button" type="button">Send Feedback</button>
+          </div>
+        </form>
+
+        <div class="feedback-note">
+          V1 note: this form is currently visual only. A real feedback system or comments section comes next.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    Built by Shawn Gilbert · Eidomancer V1
+  </footer>
 </body>
 </html>
